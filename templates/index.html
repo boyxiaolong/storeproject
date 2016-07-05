@@ -15,6 +15,7 @@
                                 <img class="img-responsive" src="{{ MEDIA_URL }}{{ clo.image_url_i }}" alt="" />
                             </a>
                             <h3><a href="{% url 'brands' %}?name={{ clo.brand.name }}">{{ clo.brand.name }}</a></h3>
+                            <span>{{ clo.name }}</span>
                             <div class="price">
                                     <h5 class="item_price">{{ clo.new_price }}元</h5>
 

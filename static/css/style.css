@@ -1114,6 +1114,10 @@ p.log {
 .content-top h1 {
   margin: 0 0 1em;
 }
+
+.content-top span {
+	color: #00BFF0;
+}
 .content-top {
   padding: 3em 0 1em;
 }
