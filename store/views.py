@@ -43,7 +43,7 @@ def global_setting(request):
 
 #主页
 def index(request):
-    ad_list = Ad.objects.all()
+    #ad_list = Ad.objects.all()
     clo_list = Clothing.objects.all()
     clo_list = getPage(request,clo_list)
     return render(request,"index.html",locals())
@@ -91,9 +91,9 @@ def detail(request):
 #品牌列表页
 def brands(request):
     try:
-        bid = request.GET.get('bid',None)
+        name = request.GET.get('name',None)
         try:
-            brand = Brand.objects.get(pk=bid)
+            brand = Brand.objects.get(name=name)
         except Brand.DoesNotExist:
             return render(request, 'error.html', {"reason":"品牌不存在"})
         clo_list = Clothing.objects.filter(brand=brand)
@@ -165,12 +165,12 @@ def view_cart(request):
 @authenticated_view
 def add_cart(request):
     try:
-        chid = request.POST.get('chid',None)
+        chid = request.POST.get('chid', None)
         try:
             clothing = Clothing.objects.get(pk=chid)
         except Clothing.DoesNotExist:
             return render(request, 'error.html', {'reason':'商品不存在'})
-        cart = request.session.get(request.user.id,None)
+        cart = request.session.get(request.user.id, None)
         if not cart:
             cart = Cart()
             cart.add(clothing)
@@ -191,15 +191,19 @@ def cleanCart(request):
 
 @authenticated_view
 def clean_one_item(request, id):
-    item = None
     try:
-     item = Clothing.objects.get(pk=id)
-    except Clothing.DoesNotExist:
-        pass
-    if item:
-        item.delete()
-    cart = request.session.get(request.user.id, None)
-    return render(request, 'checkout.html', {'cart':cart})
+        chid = request.POST.get('chid', None)
+        try:
+            clothing = Clothing.objects.get(pk=chid)
+        except Clothing.DoesNotExist:
+            return render(request, 'error.html', {'reason':'商品不存在'})
+        cart = request.session.get(request.user.id, None)
+        if cart:
+            cart.delete(clothing)
+            request.session[request.user.id] = cart
+    except Exception as e:
+        logger.error(e)
+    return render(request, 'checkout.html', locals())
 
 #打折商品
 def getDiscount(request):

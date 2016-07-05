@@ -128,3 +128,9 @@ ENV/
 *.log
 /migrations/
 *.sqlite3
+
+*.jpg
+
+.idea/misc.xml
+
+*.iml

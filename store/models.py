@@ -1,7 +1,6 @@
 # coding: utf-8
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-import json
 
 #用户
 class User(AbstractUser):
@@ -140,6 +139,14 @@ class Cart(object):
                 return
         else:
             self.items.append(Caritem(clothing=clothing, quantity=1, sum_price=clothing.new_price))
+
+    def delete(self, clothing):
+        for item in self.items:
+            if item.clothing.id == clothing.id:
+                self.total_price -= clothing.new_price
+                item.quantity -= 1
+                item.sum_price -= clothing.new_price
+                return
 
 
 
