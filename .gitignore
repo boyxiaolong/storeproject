@@ -131,6 +131,5 @@ ENV/
 
 *.jpg
 
-.idea/misc.xml
-
 *.iml
+.idea/

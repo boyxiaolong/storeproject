@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 #用户
 class User(AbstractUser):
@@ -102,6 +103,10 @@ class Clothing(models.Model):
     image_url_m = models.ImageField(upload_to='clothing/%Y/%m', default= 'clothing/default.jpg', verbose_name='详情图片路径2')
     image_url_r = models.ImageField(upload_to='clothing/%Y/%m', default= 'clothing/default.jpg', verbose_name='详情图片路径3')
     image_url_c = models.ImageField(upload_to='clothing/%Y/%m', default= 'clothing/ce.jpg', verbose_name='购物车展示图片')
+    image = VersatileImageField(
+        upload_to='products', ppoi_field='ppoi', blank=True
+    , verbose_name='显示图片')
+    ppoi = PPOIField()
 
     class Meta:
         verbose_name = '商品'
